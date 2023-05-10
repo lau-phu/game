@@ -20,6 +20,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREY = (128, 128, 128)
+YELLOW = (255, 255, 0)
 
 # Define font
 font = pygame.font.SysFont(None, 30)
@@ -31,6 +32,10 @@ snake_length = 1
 food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
 obstacle_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
 lives = 3
+walls = []
+super_food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
+super_food_timer = 0
+super_food_active = False
 
 # Define functions
 def draw_snake(snake_list):
@@ -42,6 +47,13 @@ def draw_food(food_pos):
 
 def draw_obstacle(obstacle_pos):
     pygame.draw.rect(screen, GREY, [obstacle_pos[0], obstacle_pos[1], 10, 10])
+
+def draw_walls(walls):
+    for wall in walls:
+        pygame.draw.rect(screen, BLUE, [wall[0], wall[1], 10, 10])
+
+def draw_super_food(super_food_pos):
+    pygame.draw.rect(screen, YELLOW, [super_food_pos[0], super_food_pos[1], 10, 10])
 
 def message_to_screen(msg, color):
     screen_text = font.render(msg, True, color)
@@ -81,20 +93,6 @@ while not game_over:
         food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
         snake_length += 1
 
-    if len(snake_list) > snake_length:
-        del snake_list[0]
-
-    if snake_head[0] < 0 or snake_head[0] > WIDTH-10 or snake_head[1] < 0 or snake_head[1] > HEIGHT-10:
-        lives -= 1
-        if lives == 0:
-            game_over = True
-        else:
-            snake_list = []
-            snake_length = 1
-
-    if snake_head in snake_list[:-1]:
-        lives -= 1
-        if lives == 0:
-            game_over = True
-        else:
-            snake
+        # Randomly change walls
+        for i in range(3):
+            wall
