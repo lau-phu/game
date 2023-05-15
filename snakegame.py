@@ -36,6 +36,8 @@ walls = []
 super_food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
 super_food_timer = 0
 super_food_active = False
+score = 0
+score_decay_timer = 0
 
 # Define functions
 def draw_snake(snake_list):
@@ -54,6 +56,14 @@ def draw_walls(walls):
 
 def draw_super_food(super_food_pos):
     pygame.draw.rect(screen, YELLOW, [super_food_pos[0], super_food_pos[1], 10, 10])
+
+def draw_score(score):
+    score_text = font.render("Score: " + str(score), True, WHITE)
+    screen.blit(score_text, [10, 10])
+
+def draw_lives(lives):
+    lives_text = font.render("Lives: " + str(lives), True, WHITE)
+    screen.blit(lives_text, [WIDTH - 70, 10])
 
 def message_to_screen(msg, color):
     screen_text = font.render(msg, True, color)
@@ -84,15 +94,4 @@ while not game_over:
 
     # Move snake
     snake_head = []
-    snake_head.append(snake_list[-1][0] + x_change)
-    snake_head.append(snake_list[-1][1] + y_change)
-    snake_list.append(snake_head)
-
-    # Check for collisions
-    if snake_head == food_pos:
-        food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
-        snake_length += 1
-
-        # Randomly change walls
-        for i in range(3):
-            wall
+    snake_head.append(snake_list[-1][0
