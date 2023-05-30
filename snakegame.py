@@ -92,6 +92,3 @@ while not game_over:
         x_change = 0
         y_change = 10
 
-    # Move snake
-    snake_head = []
-    snake_head.append(snake_list[-1][0
