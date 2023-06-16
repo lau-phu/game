@@ -92,3 +92,88 @@ while not game_over:
         x_change = 0
         y_change = 10
 
+    # Move snake
+    snake_head = []
+    snake_head.append(snake_list[-1][0] + x_change)
+    snake_head.append(snake_list[-1][1] + y_change)
+    snake_list.append(snake_head)
+
+    # Check for collisions
+    if snake_head == food_pos:
+        food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
+        snake_length += 1
+        score += 1
+
+        # Randomly change walls
+        for i in range(3):
+            wall_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
+            while wall_pos in walls or wall_pos == food_pos or wall_pos == obstacle_pos or wall_pos == snake_head or wall_pos in snake_list[:-1]:
+                wall_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
+            walls.append(wall_pos)
+
+    if snake_head == super_food_pos:
+        super_food_pos = [random.randrange(0, WIDTH, 10), random.randrange(0, HEIGHT, 10)]
+        super_food_timer = 0
+        super_food_active = True
+        snake_speed += 2
+
+    if super_food_active:
+        super_food_timer += 1
+        if super_food_timer >= 120:  # Super food disappears after 2 seconds
+            super_food_active = False
+            snake_speed -= 2
+
+    if snake_head[0] >= WIDTH or snake_head[0] < 0 or snake_head[1] >= HEIGHT or snake_head[1] < 0:
+        lives -= 1
+        if lives == 0:
+            game_over = True
+        else:
+            snake_list.clear()
+            snake_length = 1
+            snake_speed = 10
+            score_decay_timer = 0
+            screen = pygame.display.set_mode((WIDTH, HEIGHT))
+            pygame.display.set_caption("Complicated Snake Game")
+
+    if snake_head in snake_list[:-1] or snake_head in walls:
+        lives -= 1
+        if lives == 0:
+            game_over = True
+        else:
+            snake_list.clear()
+            snake_length = 1
+            snake_speed = 10
+            score_decay_timer = 0
+            screen = pygame.display.set_mode((WIDTH, HEIGHT))
+            pygame.display.set_caption("Complicated Snake Game")
+
+    if score_decay_timer >= 180:  # Score decays if not eating for longer than 3 seconds
+        score = max(0, score - 1)
+        score_decay_timer = 0
+    else:
+        score_decay_timer += 1
+
+    if len(snake_list) >= (WIDTH // 10) * (HEIGHT // 10) // 2:
+        WIDTH *= 2
+        HEIGHT *= 2
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Complicated Snake Game")
+
+    if len(snake_list) > snake_length:
+        del snake_list[0]
+
+    screen.fill(BLACK)
+    draw_snake(snake_list)
+    draw_food(food_pos)
+    draw_obstacle(obstacle_pos)
+    draw_walls(walls)
+    if super_food_active:
+        draw_super_food(super_food_pos)
+    draw_score(score)
+    draw_lives(lives)
+
+    pygame.display.update()
+    clock.tick(snake_speed)
+
+# Quit the game
+pygame.quit()
