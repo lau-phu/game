@@ -1,3 +1,18 @@
+/* OOP demonstration using C++
+this is a simple rock, paper, scissor game where player and computer each have 3 lives
+the loser lose 1 life and when your life reachs 0, you lose the game.
+
+the OOP concepts were demonstrated as follows
+
+Inheritance: The HumanPlayer and ComputerPlayer classes are derived from the base Player class, inheriting its properties and methods.
+
+Encapsulation: The member variables in the Player class (name and health) are encapsulated and accessed through getter and setter methods to control their visibility and provide data abstraction.
+
+Polymorphism: The attack method in the base Player class is declared as a pure virtual function, making it an abstract method. The derived classes (HumanPlayer and ComputerPlayer) override this method, providing their own implementation of the attack behavior.
+
+Abstraction: The Player class serves as an abstraction for the common properties and behaviors of players. It provides a common interface (attack method) that can be used to interact with players without knowing their specific types.
+*/
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
